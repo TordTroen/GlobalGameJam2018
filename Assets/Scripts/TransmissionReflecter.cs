@@ -15,7 +15,7 @@ public class TransmissionReflecter : Tool
 		base.OnHitByTransmission(transmissionOrigin, transmissionDirection, endPoint, originReflecter);
 		if (m_prevReflecter != null && m_prevReflecter != originReflecter)
 		{
-			print("Already has been hit!");
+			print(string.Format("[{0}] Already hit! (prev: {1}, origin: {2})", this, m_prevReflecter, originReflecter));
 			return;
 		}
 		m_prevReflecter = originReflecter;
@@ -27,49 +27,15 @@ public class TransmissionReflecter : Tool
 
         var direction = transform.up;
         ReflectBeam(direction);
-//		CreateTransmissionEdge(transmissionOrigin, transform.position);
     }
 
     protected void ReflectBeam(Vector2 direction)
     {
 		Transmit(transform.position, direction, m_distance);
-//        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, m_distance, m_transmissionHitMask);
-//        Debug.DrawRay(transform.position, direction * m_distance, Color.red, 1f);
-//        if (hit.collider != null)
-//        {
-//            var reflecter = hit.collider.GetComponent<TransmissionReflecter>();
-//            if (reflecter != null)
-//            {
-//                reflecter.OnHitByTransmission();
-//            }
-//        }
     }
 
 	protected void Transmit(Vector2 start, Vector2 direction, float distance)
 	{
-		// Hit next reflecter
-//		RaycastHit2D hit = Physics2D.Raycast(start, direction, distance);
-//		var endPos = Vector2.zero;
-//		var hitDist = Mathf.Min(distance, hit.distance);
-//		Debug.DrawRay(start, direction * hitDist, Color.red, 1f);
-//		if (hit.collider == null)
-//		{
-//			endPos = start + direction * hitDist;
-//		}
-//		else
-//		{
-//			var reflecter = hit.collider.GetComponent<TransmissionReflecter>();
-//			if (reflecter == null)
-//			{
-//				endPos = hit.point;
-//			}
-//			else
-//			{
-//				reflecter.OnHitByTransmission(start, direction, hit.point);
-//				endPos = reflecter.transform.position;
-//			}
-//
-//		}
 		var hit = TransmissionController.TransmitBeam(start, direction, distance, this);
 
 		// Create or reuse edge

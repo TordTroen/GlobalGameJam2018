@@ -51,10 +51,11 @@ public class ToolManager : MonoBehaviour
 				break;
 		}
 	}
-
+	private int toolCount;
 	public void PickupTool(GameObject toolPrefab)
 	{
 		var obj = Instantiate(toolPrefab);
+		obj.name = "Reflecter_" + toolCount++;
 		var tool = obj.GetComponent<Tool>();
 		m_currentTool = tool;
 		CurrentToolState = ToolState.Held;
