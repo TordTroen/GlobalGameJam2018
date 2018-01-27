@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IngameMenuManager : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class IngameMenuManager : MonoBehaviour
 	[SerializeField]private GameObject m_winPanel;
 	[SerializeField]private GameObject m_stalematePanel;
 
-	[SerializeField]private GameObject m_levelGridParent;
+	[SerializeField]private Transform m_levelGridParent;
+	[SerializeField]private GameObject m_levelGridItemPrefab;
 
 	private void Start()
 	{
@@ -26,7 +28,18 @@ public class IngameMenuManager : MonoBehaviour
 	{
 		foreach (var level in ReferenceManager.Instance.GameFlowController.AllLevels)
 		{
-			
+			var obj = Instantiate(m_levelGridItemPrefab);
+			obj.GetComponent<Button>().onClick.AddListener(() => { OnLevelClick(level); });
+			obj.transform.SetParent(m_levelGridParent);
+			obj.GetComponent<LevelSelectItem>().Init(level.LevelName);
 		}
+	}
+
+	private void OnLevelClick(Level level)
+	{
+		print("Clicked level " + level.LevelName);
+		m_levelSelectPanel.SetActive(false);
+		var levelObj = Instantiate(level);
+		level.OnStartLevel();
 	}
 }

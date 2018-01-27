@@ -22,6 +22,7 @@ public class GameFlowController : MonoBehaviour
 		for (int levelIndex = 0; levelIndex < levelObjects.Length; levelIndex++)
 		{
 			AllLevels[levelIndex] = levelObjects[levelIndex] as Level;
+			AllLevels[levelIndex].LevelName = string.Format("Level {0}", levelIndex);
 		}
 	}
 

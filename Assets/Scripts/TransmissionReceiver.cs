@@ -8,7 +8,11 @@ public class TransmissionReceiver : Tool
 	public override void OnHitByTransmission(Vector2 transmissionOrigin, Vector2 transmissionDirection, Vector2 endPoint, List<Tool> visitedTools, TransmissionReflecter originReflecter)
 	{
 		base.OnHitByTransmission(transmissionOrigin, transmissionDirection, endPoint, visitedTools, originReflecter);
-		print("Player " + originReflecter.OwnerPlayer + " wins!");
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+		if (ReferenceManager.Instance.ToolManager.CurrentToolState == ToolState.None)
+		{
+			print("Player " + originReflecter.OwnerPlayer + " wins!");
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
 	}
 }

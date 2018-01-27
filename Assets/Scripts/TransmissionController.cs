@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class TransmissionController : MonoBehaviour
 {
-    [SerializeField]private GameObject m_transmissionEdgePrefab;
 	private Transform m_initialTransmission;
     [SerializeField]private float m_transmissionRate = 1f;
 
     private void Awake()
     {
 //		m_initialTransmission = GameObject.FindGameObjectWithTag(Tags.InitialTransmission).transform;
-		m_initialTransmission = ReferenceManager.Instance.GameFlowController.CurrentLevel.InitialTransmitterTransform;
     }
 
-    private void Start()
+	public void StartInitialTransmission(Transform initialTransmissionTransform)
     {
+		m_initialTransmission = initialTransmissionTransform;
 		InvokeRepeating("DoInitialBeam", 0f, m_transmissionRate);
     }
 
