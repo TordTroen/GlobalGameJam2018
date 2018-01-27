@@ -5,7 +5,7 @@ using UnityEngine;
 public class TransmissionController : MonoBehaviour
 {
     [SerializeField]private GameObject m_transmissionEdgePrefab;
-	[SerializeField]private Transform m_initialTransmission;
+	private Transform m_initialTransmission;
     [SerializeField]private float m_transmissionRate = 1f;
     
     private List<Vector3> m_positions = new List<Vector3>();
@@ -20,6 +20,7 @@ public class TransmissionController : MonoBehaviour
     private void Awake()
     {
         m_lineRenderer = GetComponent<LineRenderer>();
+		m_initialTransmission = GameObject.FindGameObjectWithTag(Tags.InitialTransmission).transform;
     }
 
     private void Start()
