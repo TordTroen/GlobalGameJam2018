@@ -5,7 +5,8 @@ using UnityEngine;
 public class TransmissionController : MonoBehaviour
 {
     [SerializeField]private GameObject m_transmissionEdgePrefab;
-    [SerializeField]private Transform m_initialTransmission;
+	[SerializeField]private Transform m_initialTransmission;
+    [SerializeField]private float m_transmissionRate = 1f;
     
     private List<Vector3> m_positions = new List<Vector3>();
 
@@ -23,7 +24,7 @@ public class TransmissionController : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("DoInitialBeam", 1f, 1f);
+		InvokeRepeating("DoInitialBeam", 0f, m_transmissionRate);
     }
 
     private void Update()
@@ -48,17 +49,71 @@ public class TransmissionController : MonoBehaviour
 
     private void DoInitialBeam()
     {
-        RaycastHit2D hit = Physics2D.Raycast(m_initialTransmission.position, m_initialTransmission.up, 100f, m_transmissionHitMask);
-        Debug.DrawRay(m_initialTransmission.position, m_initialTransmission.up * 100f, Color.red, 1f);
-        if (hit.collider != null)
-        {
-            var reflecter = hit.collider.GetComponent<TransmissionReflecter>();
-            if (reflecter != null)
-            {
-                reflecter.OnHitByTransmission();
-            }
-        }
+		TransmitBeam(m_initialTransmission.position, m_initialTransmission.up, 100f);
+//        RaycastHit2D hit = Physics2D.Raycast(m_initialTransmission.position, m_initialTransmission.up, 100f, m_transmissionHitMask);
+//        Debug.DrawRay(m_initialTransmission.position, m_initialTransmission.up * 100f, Color.red, 1f);
+//        if (hit.collider != null)
+//        {
+//            var reflecter = hit.collider.GetComponent<TransmissionReflecter>();
+//            if (reflecter != null)
+//            {
+//                reflecter.OnHitByTransmission( );
+//            }
+//        }
     }
+
+	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance)
+	{
+		RaycastHit2D hit = Physics2D.Raycast(start, direction, distance);
+		var endPos = Vector2.zero;
+		var hitDist = Mathf.Min(distance, hit.distance);
+		TransmissionReflecter hitReflecter = null;
+		//Debug.DrawRay(start, direction * hitDist, Color.red, 1f);
+		if (hit.collider == null)
+		{
+			endPos = start + direction * hitDist;
+		}
+		else
+		{
+			hitReflecter = hit.collider.GetComponent<TransmissionReflecter>();
+			if (hitReflecter == null)
+			{
+				endPos = hit.point;
+			}
+			else
+			{
+				hitReflecter.OnHitByTransmission(start, direction, hit.point);
+				endPos = hitReflecter.transform.position;
+			}
+		}
+		return new TransmissionHit(endPos, hitReflecter);
+	}
+
+//	public static void Transmit(Vector2 start, Vector2 direction, float distance, GameObject transmissionEdgePrefab)
+//    {
+//		RaycastHit2D hit = Physics2D.Raycast(start, direction, distance);
+//        Debug.DrawRay(start, direction * distance, Color.red, 1f);
+//        if (hit.collider != null)
+//        {
+//			var endPos = Vector2.zero;
+//            var reflecter = hit.collider.GetComponent<TransmissionReflecter>();
+//            if (reflecter == null)
+//			{
+//				var hitDist = Mathf.Min(distance, hit.distance);
+//				endPos = start + direction * hitDist;
+//			}
+//			else
+//            {
+//				reflecter.OnHitByTransmission(start, direction, hit.point);
+//				endPos = reflecter.transform.position;
+//            }
+//
+//			var obj = Instantiate(transmissionEdgePrefab);
+//			var edge = obj.GetComponent<TransmissionEdge>();
+//			edge.StartTransmission(start, endPos);
+//        }
+//    }
+
 
     private void UpdatePositions()
     {

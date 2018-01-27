@@ -10,23 +10,30 @@ public class TransmissionEdge : MonoBehaviour
     private Vector2 m_end;
     [SerializeField]private GameObject m_transmissionEffectPrefab;
     [SerializeField]private List<TransmissionEffect> m_effectPool = new List<TransmissionEffect>();
+	private LineRenderer m_lineRenderer;
 
     private float m_spawnTimer;
 
-    private void Update()
-    {
-        m_spawnTimer -= Time.deltaTime;
-        if (m_spawnTimer <= 0f)
-        {
-            m_spawnTimer = m_spawnSpeed;
-            SpawnEffect(m_start, m_end);
-        }
-    }
+	private void Awake()
+	{
+		m_lineRenderer = GetComponent<LineRenderer>();
+	}
+//    private void Update()
+//    {
+//        m_spawnTimer -= Time.deltaTime;
+//        if (m_spawnTimer <= 0f)
+//        {
+//            m_spawnTimer = m_spawnSpeed;
+//            SpawnEffect(m_start, m_end);
+//        }
+//    }
 
     public void StartTransmission(Vector2 start, Vector2 end)
     {
         m_start = start;
         m_end = end;
+
+		m_lineRenderer.SetPositions(new Vector3[]{start, end});
     }
 
     private void SpawnEffect(Vector2 start, Vector3 end)
