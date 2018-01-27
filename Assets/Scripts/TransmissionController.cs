@@ -5,6 +5,7 @@ using UnityEngine;
 public class TransmissionController : MonoBehaviour
 {
     [SerializeField]private GameObject m_transmissionEdgePrefab;
+    [SerializeField]private Transform m_initialTransmission;
     
     private List<Vector3> m_positions = new List<Vector3>();
 
@@ -18,6 +19,11 @@ public class TransmissionController : MonoBehaviour
     private void Awake()
     {
         m_lineRenderer = GetComponent<LineRenderer>();
+    }
+
+    private void Start()
+    {
+        InvokeRepeating("DoInitialBeam", 1f, 1f);
     }
 
     private void Update()
@@ -40,12 +46,17 @@ public class TransmissionController : MonoBehaviour
         }
     }
 
-    private void RaycastInDirection(Vector2 start, Vector2 direction)
+    private void DoInitialBeam()
     {
-        RaycastHit2D hit = Physics2D.Raycast(start, direction, 100f, m_transmissionHitMask);
+        RaycastHit2D hit = Physics2D.Raycast(m_initialTransmission.position, m_initialTransmission.up, 100f, m_transmissionHitMask);
+        Debug.DrawRay(m_initialTransmission.position, m_initialTransmission.up * 100f, Color.red, 1f);
         if (hit.collider != null)
         {
-            
+            var reflecter = hit.collider.GetComponent<TransmissionReflecter>();
+            if (reflecter != null)
+            {
+                reflecter.OnHitByTransmission();
+            }
         }
     }
 
