@@ -27,25 +27,25 @@ public class TransmissionController : MonoBehaviour
 		InvokeRepeating("DoInitialBeam", 0f, m_transmissionRate);
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            var hitPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            hitPos.z = -0.01f;
-            if (hasFirstPos)
-            {
-                AddPoint(hitPos, m_lastPos);
-                //m_positions.Add(hitPos);
-                //UpdatePositions();
-            }
-            else
-            {
-                hasFirstPos = true;
-            }
-            m_lastPos = hitPos;
-        }
-    }
+//    private void Update()
+//    {
+//        if (Input.GetButtonDown("Fire1"))
+//        {
+//            var hitPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+//            hitPos.z = -0.01f;
+//            if (hasFirstPos)
+//            {
+//                AddPoint(hitPos, m_lastPos);
+//                //m_positions.Add(hitPos);
+//                //UpdatePositions();
+//            }
+//            else
+//            {
+//                hasFirstPos = true;
+//            }
+//            m_lastPos = hitPos;
+//        }
+//    }
 
     private void DoInitialBeam()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransmissionReflecter : MonoBehaviour
+public class TransmissionReflecter : Tool
 {
     [SerializeField]private float m_distance = 100f;
 	[SerializeField]private LayerMask m_transmissionHitMask;

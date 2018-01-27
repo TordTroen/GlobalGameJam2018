@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemPlacer : MonoBehaviour
+public class Tool : MonoBehaviour
 {
-    
+
 }
