@@ -29,7 +29,7 @@ public class TransmissionController : MonoBehaviour
 
     private void DoInitialBeam()
     {
-		TransmitBeam(m_initialTransmission.position, m_initialTransmission.up, 100f, null);
+		TransmitBeam(m_initialTransmission.position, m_initialTransmission.up, 100f, new List<Tool>(), null);
 //        RaycastHit2D hit = Physics2D.Raycast(m_initialTransmission.position, m_initialTransmission.up, 100f, m_transmissionHitMask);
 //        Debug.DrawRay(m_initialTransmission.position, m_initialTransmission.up * 100f, Color.red, 1f);
 //        if (hit.collider != null)
@@ -42,7 +42,7 @@ public class TransmissionController : MonoBehaviour
 //        }
     }
 
-	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance, TransmissionReflecter originReflecter)
+	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance, List<Tool> visitedTools, TransmissionReflecter originReflecter)
 	{
 		RaycastHit2D hit = Physics2D.Raycast(start, direction, distance);
 		var endPos = Vector2.zero;
@@ -62,7 +62,7 @@ public class TransmissionController : MonoBehaviour
 			}
 			else
 			{
-				hitTool.OnHitByTransmission(start, direction, hit.point, originReflecter);
+				hitTool.OnHitByTransmission(start, direction, hit.point, visitedTools, originReflecter);
 				endPos = hitTool.transform.position;
 			}
 		}

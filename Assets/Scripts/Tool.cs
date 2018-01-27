@@ -27,9 +27,11 @@ public class Tool : MonoBehaviour
 	public virtual void OnHitByTransmission(
 		Vector2 transmissionOrigin, 
 		Vector2 transmissionDirection, 
-		Vector2 endPoint, 
+		Vector2 endPoint,
+		List<Tool> visitedTools,
 		TransmissionReflecter originReflecter = null)
 	{
-		
+//		print("Visited " + this + " (total " + visitedTools.Count + ")");
+		visitedTools.Add(this);
 	}
 }

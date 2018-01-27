@@ -13,6 +13,7 @@ public enum ToolState
 public class ToolManager : MonoBehaviour
 {
 	private Tool m_currentTool;
+	public Tool CurrentTool { get { return m_currentTool; } }
 	[SerializeField]private ToolState m_toolState = ToolState.None;
 	public ToolState CurrentToolState { private set { m_toolState = value; } get { return m_toolState; } }
 	[SerializeField]private Transform m_floor;

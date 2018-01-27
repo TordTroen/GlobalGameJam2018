@@ -8,11 +8,13 @@ public class ReferenceManager : MonoBehaviour
 
 	[SerializeField]private GameObject m_gameFlowObject;
 	public GameFlowController GameFlowController { private set; get; }
+	public ToolManager ToolManager { private set; get; }
 
 	private void Awake()
 	{
 		Instance = this;
 
 		GameFlowController = m_gameFlowObject.GetComponent<GameFlowController>();
+		ToolManager = m_gameFlowObject.GetComponent<ToolManager>();
 	}
 }

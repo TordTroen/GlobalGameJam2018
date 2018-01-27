@@ -14,7 +14,7 @@ public class GameFlowController : MonoBehaviour
 
 	private void Awake()
 	{
-		m_toolManager = GetComponent<ToolManager>();
+		m_toolManager = ReferenceManager.Instance.ToolManager;
 	}
 
 	private void Start()
