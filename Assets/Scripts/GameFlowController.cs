@@ -11,10 +11,18 @@ public class GameFlowController : MonoBehaviour
 	public PlayerInfo CurrentPlayer { get { return m_players[m_currentPlayerId]; } }
 	private float m_turnTimer;
 	private ToolManager m_toolManager;
+	public Level CurrentLevel { get; private set; }
+	public Level[] AllLevels { get; private set; }
 
 	private void Awake()
 	{
 		m_toolManager = ReferenceManager.Instance.ToolManager;
+		var levelObjects = Resources.LoadAll("Levels", typeof(Level));
+		AllLevels = new Level[levelObjects.Length];
+		for (int levelIndex = 0; levelIndex < levelObjects.Length; levelIndex++)
+		{
+			AllLevels[levelIndex] = levelObjects[levelIndex] as Level;
+		}
 	}
 
 	private void Start()
