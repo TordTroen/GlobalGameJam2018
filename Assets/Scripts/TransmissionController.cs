@@ -6,20 +6,41 @@ public class TransmissionController : MonoBehaviour
 {
 	private Transform m_initialTransmission;
     [SerializeField]private float m_transmissionRate = 1f;
+	private float m_transmissionTimer;
+	private bool m_transmitInitial = false;
 
     private void Awake()
     {
 //		m_initialTransmission = GameObject.FindGameObjectWithTag(Tags.InitialTransmission).transform;
     }
 
+	private void Update()
+	{
+		if (m_transmitInitial)
+		{
+			m_transmissionTimer -= Time.deltaTime;
+			if (m_transmissionTimer <= 0f)
+			{
+				TransmitInitialBeam();
+			}
+		}
+	}
+
 	public void StartInitialTransmission(Transform initialTransmissionTransform)
     {
 		m_initialTransmission = initialTransmissionTransform;
-		InvokeRepeating("DoInitialBeam", 0f, m_transmissionRate);
+//		InvokeRepeating("DoInitialBeam", 0f, m_transmissionRate);
+		m_transmitInitial = true;
     }
 
-    private void DoInitialBeam()
+	public void StopTransmission()
+	{
+		m_transmitInitial = false;
+	}
+
+    private void TransmitInitialBeam()
     {
+		m_transmissionTimer = m_transmissionRate;
 		TransmitBeam(m_initialTransmission.position, m_initialTransmission.up, 100f, new List<Tool>(), null);
     }
 

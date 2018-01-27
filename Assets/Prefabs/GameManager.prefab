@@ -204,6 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_gameFlowObject: {fileID: 1734423551362044}
   m_transmissionControllerObject: {fileID: 1608192360869202}
+  m_menuObject: {fileID: 1022447940064980}
 --- !u!114 &114855791966544636
 MonoBehaviour:
   m_ObjectHideFlags: 1

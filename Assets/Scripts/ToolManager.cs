@@ -17,6 +17,7 @@ public class ToolManager : MonoBehaviour
 	[SerializeField]private ToolState m_toolState = ToolState.None;
 	public ToolState CurrentToolState { private set { m_toolState = value; } get { return m_toolState; } }
 	[SerializeField]private Transform m_floor;
+	private int m_toolCount; // Only used for debugging purposes really
 
 	private void Update()
 	{
@@ -26,6 +27,8 @@ public class ToolManager : MonoBehaviour
 				ToolFollowMousePos(m_currentTool);
 				if (Input.GetButtonDown("Fire1"))
 				{
+					// TODO Only allow placing on ground, not walls
+
 //					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 //					var rayDist = 20f;
 //					Debug.DrawRay(ray.origin, ray.direction * rayDist, Color.red, 10f);
@@ -52,11 +55,12 @@ public class ToolManager : MonoBehaviour
 				break;
 		}
 	}
-	private int toolCount;
+
 	public void PickupTool(GameObject toolPrefab)
 	{
 		var obj = Instantiate(toolPrefab);
-		obj.name = "Reflecter_" + toolCount++;
+		obj.transform.SetParent(ReferenceManager.Instance.GameFlowController.CurrentLevel.transform);
+		obj.name = "Reflecter_" + m_toolCount++;
 		var tool = obj.GetComponent<Tool>();
 		m_currentTool = tool;
 		CurrentToolState = ToolState.Held;

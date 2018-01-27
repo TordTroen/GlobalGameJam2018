@@ -11,7 +11,7 @@ public class GameFlowController : MonoBehaviour
 	public PlayerInfo CurrentPlayer { get { return m_players[m_currentPlayerId]; } }
 	private float m_turnTimer;
 	private ToolManager m_toolManager;
-	public Level CurrentLevel { get; private set; }
+	public Level CurrentLevel { get; set; }
 	public Level[] AllLevels { get; private set; }
 
 	private void Awake()
@@ -68,5 +68,17 @@ public class GameFlowController : MonoBehaviour
 	public void UpdatePlayerToolbox()
 	{
 		// TODO change the visuals for available tools or does both players have the same tools?
+	}
+
+	public void UnloadCurrentLevel()
+	{
+		Destroy(CurrentLevel.gameObject);
+	}
+
+	public void WinGame(PlayerInfo winningPlayer)
+	{
+		UnloadCurrentLevel();
+		ReferenceManager.Instance.TransmissionController.StopTransmission();
+		ReferenceManager.Instance.IngameMenuManager.GoToWinScreen(winningPlayer);
 	}
 }

@@ -11,8 +11,11 @@ public class TransmissionReceiver : Tool
 
 		if (ReferenceManager.Instance.ToolManager.CurrentToolState == ToolState.None)
 		{
-			print("Player " + originReflecter.OwnerPlayer + " wins!");
-			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			var winningPlayer = originReflecter.OwnerPlayer;
+			// unload level
+			// show win screen
+			ReferenceManager.Instance.GameFlowController.WinGame(winningPlayer);
+
 		}
 	}
 }

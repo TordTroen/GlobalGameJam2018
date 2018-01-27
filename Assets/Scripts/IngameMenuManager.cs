@@ -14,32 +14,55 @@ public class IngameMenuManager : MonoBehaviour
 	[SerializeField]private Transform m_levelGridParent;
 	[SerializeField]private GameObject m_levelGridItemPrefab;
 
+	[SerializeField]private Text m_winText;
+
 	private void Start()
 	{
 		InitLevelSelect();
+		GoToLevelSelect();
 	}
 
 	public void GoToLevelSelect()
 	{
-		
+		m_levelSelectPanel.SetActive(true);
+	}
+
+	public void WinScreenToLevelSelect()
+	{
+		m_winPanel.SetActive(false);
+		m_levelSelectPanel.SetActive(true);
+	}
+
+	public void GoToWinScreen(PlayerInfo winningPlayer)
+	{
+		m_winPanel.SetActive(true);
+		m_winText.text = string.Format("{0} wins!", winningPlayer.PlayerName);
+		m_winText.color = winningPlayer.PlayerColor;
+	}
+
+	public void GoToStalemateScreen()
+	{
+		m_stalematePanel.SetActive(true);
+
 	}
 
 	private void InitLevelSelect()
 	{
-		foreach (var level in ReferenceManager.Instance.GameFlowController.AllLevels)
+		foreach (var levelAsset in ReferenceManager.Instance.GameFlowController.AllLevels)
 		{
 			var obj = Instantiate(m_levelGridItemPrefab);
-			obj.GetComponent<Button>().onClick.AddListener(() => { OnLevelClick(level); });
+			obj.GetComponent<Button>().onClick.AddListener(() => { OnLevelClick(levelAsset); });
 			obj.transform.SetParent(m_levelGridParent);
-			obj.GetComponent<LevelSelectItem>().Init(level.LevelName);
+			obj.GetComponent<LevelSelectItem>().Init(levelAsset.LevelName);
 		}
 	}
 
-	private void OnLevelClick(Level level)
+	private void OnLevelClick(Level levelAsset)
 	{
-		print("Clicked level " + level.LevelName);
 		m_levelSelectPanel.SetActive(false);
-		var levelObj = Instantiate(level);
+		var levelObj = Instantiate(levelAsset);
+		var level = levelObj.GetComponent<Level>();
 		level.OnStartLevel();
+		ReferenceManager.Instance.GameFlowController.CurrentLevel = level;
 	}
 }
