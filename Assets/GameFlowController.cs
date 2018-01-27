@@ -7,6 +7,7 @@ public class GameFlowController : MonoBehaviour
 	[SerializeField]private PlayerInfo[] m_players = new PlayerInfo[2];
 	[SerializeField]private float m_secondsPerTurn = 30f;
 	private int m_currentPlayerId = 1;
+	public int CurrentPlayerId { get { return m_currentPlayerId; } }
 	public PlayerInfo CurrentPlayer { get { return m_players[m_currentPlayerId]; } }
 	private float m_turnTimer;
 	private ToolManager m_toolManager;
@@ -26,16 +27,25 @@ public class GameFlowController : MonoBehaviour
 		m_turnTimer -= Time.deltaTime;
 		if (m_turnTimer <= 0f)
 		{
-			if (m_toolManager.CurrentToolState == ToolState.Placed)
-			{
-				m_toolManager.CommitCurrentTool();
-			}
-
-			print(string.Format("Player {0} turn done!", CurrentPlayer.PlayerName));
-			NextPlayer();
-			// TODO if you have placed box, commit it at current rotation
-			// TODO visual feedback
+			EndCurrentTurn();
 		}
+	}
+
+	public void EndCurrentTurn()
+	{
+		if (m_toolManager.CurrentToolState == ToolState.Held)
+		{
+			m_toolManager.PlaceCurrentTool(false);
+		}
+		else if (m_toolManager.CurrentToolState == ToolState.Placed)
+		{
+			m_toolManager.CommitCurrentTool();
+		}
+
+		print(string.Format("Player {0} turn done!", CurrentPlayer.PlayerName));
+		NextPlayer();
+		// TODO if you have placed box, commit it at current rotation
+		// TODO visual feedback
 	}
 
 	public void NextPlayer()

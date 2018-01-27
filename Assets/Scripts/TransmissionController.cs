@@ -49,7 +49,7 @@ public class TransmissionController : MonoBehaviour
 
     private void DoInitialBeam()
     {
-		TransmitBeam(m_initialTransmission.position, m_initialTransmission.up, 100f);
+		TransmitBeam(m_initialTransmission.position, m_initialTransmission.up, 100f, null);
 //        RaycastHit2D hit = Physics2D.Raycast(m_initialTransmission.position, m_initialTransmission.up, 100f, m_transmissionHitMask);
 //        Debug.DrawRay(m_initialTransmission.position, m_initialTransmission.up * 100f, Color.red, 1f);
 //        if (hit.collider != null)
@@ -62,12 +62,12 @@ public class TransmissionController : MonoBehaviour
 //        }
     }
 
-	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance)
+	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance, TransmissionReflecter originReflecter)
 	{
 		RaycastHit2D hit = Physics2D.Raycast(start, direction, distance);
 		var endPos = Vector2.zero;
 		var hitDist = Mathf.Min(distance, hit.distance);
-		TransmissionReflecter hitReflecter = null;
+		Tool hitTool = null;
 		//Debug.DrawRay(start, direction * hitDist, Color.red, 1f);
 		if (hit.collider == null)
 		{
@@ -75,18 +75,18 @@ public class TransmissionController : MonoBehaviour
 		}
 		else
 		{
-			hitReflecter = hit.collider.GetComponent<TransmissionReflecter>();
-			if (hitReflecter == null)
+			hitTool = hit.collider.GetComponent<Tool>();
+			if (hitTool == null)
 			{
 				endPos = hit.point;
 			}
 			else
 			{
-				hitReflecter.OnHitByTransmission(start, direction, hit.point);
-				endPos = hitReflecter.transform.position;
+				hitTool.OnHitByTransmission(start, direction, hit.point, originReflecter);
+				endPos = hitTool.transform.position;
 			}
 		}
-		return new TransmissionHit(endPos, hitReflecter);
+		return new TransmissionHit(endPos, hitTool);
 	}
 
 //	public static void Transmit(Vector2 start, Vector2 direction, float distance, GameObject transmissionEdgePrefab)
@@ -114,20 +114,20 @@ public class TransmissionController : MonoBehaviour
 //        }
 //    }
 
-
-    private void UpdatePositions()
-    {
-        print(string.Format("Poslen: {0}", m_positions.Count));
-        m_lineRenderer.positionCount = m_positions.Count;
-        m_lineRenderer.SetPositions(m_positions.ToArray());
-    }
-
-    public void AddPoint(Vector2 position, Vector2 prevPosition)
-    {
-        //m_positions.Add(position);
-        // spawn new edge
-        var obj = Instantiate(m_transmissionEdgePrefab);
-        var edge = obj.GetComponent<TransmissionEdge>();
-        edge.StartTransmission(prevPosition, position);
-    }
+//
+//    private void UpdatePositions()
+//    {
+//        print(string.Format("Poslen: {0}", m_positions.Count));
+//        m_lineRenderer.positionCount = m_positions.Count;
+//        m_lineRenderer.SetPositions(m_positions.ToArray());
+//    }
+//
+//    public void AddPoint(Vector2 position, Vector2 prevPosition)
+//    {
+//        //m_positions.Add(position);
+//        // spawn new edge
+//        var obj = Instantiate(m_transmissionEdgePrefab);
+//        var edge = obj.GetComponent<TransmissionEdge>();
+//		edge.StartTransmission(prevPosition, position, ReferenceManager.Instance.GameFlowController.CurrentPlayer.PlayerColor);
+//    }
 }

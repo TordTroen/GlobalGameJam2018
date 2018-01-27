@@ -15,6 +15,7 @@ public class ToolManager : MonoBehaviour
 	private Tool m_currentTool;
 	[SerializeField]private ToolState m_toolState = ToolState.None;
 	public ToolState CurrentToolState { private set { m_toolState = value; } get { return m_toolState; } }
+	[SerializeField]private Transform m_floor;
 
 	private void Update()
 	{
@@ -24,12 +25,15 @@ public class ToolManager : MonoBehaviour
 				ToolFollowMousePos(m_currentTool);
 				if (Input.GetButtonDown("Fire1"))
 				{
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					var rayDist = 20f;
-					Debug.DrawRay(ray.origin, ray.direction * rayDist, Color.red, 10f);
-					var hit = Physics2D.Raycast(ray.origin, ray.direction, rayDist);
-					print("Hit: " + hit.collider);
-					if (hit.collider != null)
+//					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//					var rayDist = 20f;
+//					Debug.DrawRay(ray.origin, ray.direction * rayDist, Color.red, 10f);
+//					var hit = Physics2D.Raycast(ray.origin, ray.direction, rayDist);
+//					print("Hit: " + hit.collider);
+//					if (hit.collider != null)
+
+//					var mousePos = Utils.GetMouseInWorldPos();
+//					m_floor.InverseTransformPoint(mousePos);
 					{
 						bool isValidPlacement = true;
 						PlaceCurrentTool(isValidPlacement);
@@ -38,6 +42,10 @@ public class ToolManager : MonoBehaviour
 				break;
 			case ToolState.Placed:
 				ToolLookAtMouse(m_currentTool);
+				if (Input.GetButtonDown("Fire1"))
+				{
+					CommitCurrentTool();
+				}
 				break;
 			default:
 				break;
@@ -50,6 +58,7 @@ public class ToolManager : MonoBehaviour
 		var tool = obj.GetComponent<Tool>();
 		m_currentTool = tool;
 		CurrentToolState = ToolState.Held;
+		m_currentTool.OnPickUp(ReferenceManager.Instance.GameFlowController.CurrentPlayer);
 	}
 
 	public void PlaceCurrentTool(bool isValidPlacement)
@@ -60,6 +69,7 @@ public class ToolManager : MonoBehaviour
 		}
 		else
 		{
+			Destroy(m_currentTool.gameObject);
 			m_currentTool = null;
 			CurrentToolState = ToolState.None;
 		}
@@ -69,6 +79,8 @@ public class ToolManager : MonoBehaviour
 	{
 		m_currentTool = null;
 		CurrentToolState = ToolState.None;
+
+		ReferenceManager.Instance.GameFlowController.EndCurrentTurn();
 	}
 
 	private void ToolFollowMousePos(Tool tool)

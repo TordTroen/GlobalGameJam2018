@@ -78,6 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 687101952c8af418090b5e7a2fba3d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_playerSprites:
+  - {fileID: 21300000, guid: a883528a352f84ac8a55ae526010ed34, type: 3}
+  - {fileID: 21300000, guid: 687e42bbb1024416ea50fabe6809e374, type: 3}
   m_distance: 100
   m_transmissionHitMask:
     serializedVersion: 2

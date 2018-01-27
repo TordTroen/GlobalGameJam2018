@@ -28,12 +28,15 @@ public class TransmissionEdge : MonoBehaviour
 //        }
 //    }
 
-    public void StartTransmission(Vector2 start, Vector2 end)
+	public void StartTransmission(Vector2 start, Vector2 end, Color color)
     {
         m_start = start;
         m_end = end;
 
 		m_lineRenderer.SetPositions(new Vector3[]{start, end});
+		//m_lineRenderer.colorGradient.colorKeys = new GradientColorKey[]{ new GradientColorKey(color, 0f), new GradientColorKey(color, 1f) };
+		m_lineRenderer.startColor = color;
+		m_lineRenderer.endColor = color;
     }
 
     private void SpawnEffect(Vector2 start, Vector3 end)

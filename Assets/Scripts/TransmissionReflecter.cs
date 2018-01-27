@@ -8,9 +8,18 @@ public class TransmissionReflecter : Tool
 	[SerializeField]private LayerMask m_transmissionHitMask;
 	[SerializeField]private GameObject m_transmissionEdgePrefab;
 	[SerializeField]private List<TransmissionEdge> m_edges = new List<TransmissionEdge>();
+	private TransmissionReflecter m_prevReflecter;
 
-	public virtual void OnHitByTransmission(Vector2 transmissionOrigin, Vector2 transmissionDirection, Vector2 endPoint)
+	public override void OnHitByTransmission(Vector2 transmissionOrigin, Vector2 transmissionDirection, Vector2 endPoint, TransmissionReflecter originReflecter = null)
     {
+		base.OnHitByTransmission(transmissionOrigin, transmissionDirection, endPoint, originReflecter);
+		if (m_prevReflecter != null && m_prevReflecter != originReflecter)
+		{
+			print("Already has been hit!");
+			return;
+		}
+		m_prevReflecter = originReflecter;
+
 		foreach (var edge in m_edges)
 		{
 			edge.gameObject.SetActive(false);
@@ -61,7 +70,7 @@ public class TransmissionReflecter : Tool
 //			}
 //
 //		}
-		var hit = TransmissionController.TransmitBeam(start, direction, distance);
+		var hit = TransmissionController.TransmitBeam(start, direction, distance, this);
 
 		// Create or reuse edge
 		TransmissionEdge edgeToUse = null;
@@ -76,10 +85,11 @@ public class TransmissionReflecter : Tool
 		if (edgeToUse == null)
 		{
 			var obj = Instantiate(m_transmissionEdgePrefab);
+			obj.transform.SetParent(transform);
 			edgeToUse = obj.GetComponent<TransmissionEdge>();
 			m_edges.Add(edgeToUse);
 			
 		}
-		edgeToUse.StartTransmission(start, hit.EndPos);
+		edgeToUse.StartTransmission(start, hit.EndPos, OwnerPlayer == null ? Color.green : OwnerPlayer.PlayerColor);
 	}
 }
