@@ -1496,7 +1496,7 @@ Prefab:
     - target: {fileID: 224222518266018476, guid: 22e0d43df739d41c4930dfd9c9ec9bcb,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -86.81818
       objectReference: {fileID: 0}
     - target: {fileID: 224222518266018476, guid: 22e0d43df739d41c4930dfd9c9ec9bcb,
         type: 2}
@@ -1506,7 +1506,7 @@ Prefab:
     - target: {fileID: 224222518266018476, guid: 22e0d43df739d41c4930dfd9c9ec9bcb,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 173.63635
       objectReference: {fileID: 0}
     - target: {fileID: 224222518266018476, guid: 22e0d43df739d41c4930dfd9c9ec9bcb,
         type: 2}
@@ -7527,9 +7527,29 @@ Prefab:
       objectReference: {fileID: 39052053}
     - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
         type: 2}
+      propertyPath: m_players.Array.data[0].m_selectedPlayerOverlay
+      value: 
+      objectReference: {fileID: 902452324}
+    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
+        type: 2}
       propertyPath: m_players.Array.data[1].m_scoreText
       value: 
       objectReference: {fileID: 369529536}
+    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
+        type: 2}
+      propertyPath: m_players.Array.data[1].m_selectedPlayerOverlay
+      value: 
+      objectReference: {fileID: 1906566260}
+    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
+        type: 2}
+      propertyPath: m_timerImage
+      value: 
+      objectReference: {fileID: 1729619096}
+    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
+        type: 2}
+      propertyPath: m_timerText
+      value: 
+      objectReference: {fileID: 132335456}
     - target: {fileID: 114365659841139594, guid: fb35bdaeb513f4edeafc9940e9fa474d,
         type: 2}
       propertyPath: m_levelSelectPanel
@@ -7557,44 +7577,14 @@ Prefab:
       objectReference: {fileID: 1273646058}
     - target: {fileID: 114365659841139594, guid: fb35bdaeb513f4edeafc9940e9fa474d,
         type: 2}
-      propertyPath: m_winText
-      value: 
-      objectReference: {fileID: 1215457419}
-    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
-        type: 2}
-      propertyPath: m_players.Array.data[1].m_selectedPlayerOverlay
-      value: 
-      objectReference: {fileID: 1906566260}
-    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
-        type: 2}
-      propertyPath: m_players.Array.data[0].m_selectedPlayerOverlay
-      value: 
-      objectReference: {fileID: 902452324}
-    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
-        type: 2}
-      propertyPath: m_timerImage
-      value: 
-      objectReference: {fileID: 1729619096}
-    - target: {fileID: 114365659841139594, guid: fb35bdaeb513f4edeafc9940e9fa474d,
-        type: 2}
-      propertyPath: m_toolboxPanel
-      value: 
-      objectReference: {fileID: 248231293}
-    - target: {fileID: 114365659841139594, guid: fb35bdaeb513f4edeafc9940e9fa474d,
-        type: 2}
       propertyPath: m_rightSidePanel
       value: 
       objectReference: {fileID: 1427052373}
-    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
+    - target: {fileID: 114365659841139594, guid: fb35bdaeb513f4edeafc9940e9fa474d,
         type: 2}
-      propertyPath: m_timerText
+      propertyPath: m_winText
       value: 
-      objectReference: {fileID: 132335456}
-    - target: {fileID: 114855791966544636, guid: fb35bdaeb513f4edeafc9940e9fa474d,
-        type: 2}
-      propertyPath: m_secondsPerTurn
-      value: 30
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1215457419}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fb35bdaeb513f4edeafc9940e9fa474d, type: 2}
   m_IsPrefabParent: 0
