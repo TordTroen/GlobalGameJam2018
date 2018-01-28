@@ -29,15 +29,12 @@ public class ToolManager : MonoBehaviour
 				{
 					// TODO Only allow placing on ground, not walls
 
-//					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-//					var rayDist = 20f;
-//					Debug.DrawRay(ray.origin, ray.direction * rayDist, Color.red, 10f);
-//					var hit = Physics2D.Raycast(ray.origin, ray.direction, rayDist);
-//					print("Hit: " + hit.collider);
-//					if (hit.collider != null)
-
-//					var mousePos = Utils.GetMouseInWorldPos();
-//					m_floor.InverseTransformPoint(mousePos);
+					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+					var rayDist = 20f;
+					Debug.DrawRay(ray.origin, ray.direction * rayDist, Color.red, 10f);
+					var hit = Physics2D.Raycast(ray.origin, ray.direction, rayDist, 1, -1f, 2f);
+					print(hit.collider);
+					if (hit.collider != null && hit.collider.tag == Tags.Floor)
 					{
 						bool isValidPlacement = true;
 						PlaceCurrentTool(isValidPlacement);
@@ -72,6 +69,9 @@ public class ToolManager : MonoBehaviour
 		if (isValidPlacement)
 		{
 			CurrentToolState = ToolState.Placed;
+			var pos = m_currentTool.transform.position;
+			pos.z = 0f;
+			m_currentTool.transform.position = pos;
 		}
 		else
 		{
@@ -91,7 +91,9 @@ public class ToolManager : MonoBehaviour
 
 	private void ToolFollowMousePos(Tool tool)
 	{
-		tool.transform.position = Utils.GetMouseInWorldPos();
+		Vector3 pos = Utils.GetMouseInWorldPos();
+		pos.z = 10f;
+		tool.transform.position = pos;
 	}
 
 	private void ToolLookAtMouse(Tool tool)

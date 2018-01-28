@@ -41,20 +41,33 @@ public class TransmissionController : MonoBehaviour
     private void TransmitInitialBeam()
     {
 		m_transmissionTimer = m_transmissionRate;
-		TransmitBeam(m_initialTransmission.position, m_initialTransmission.up, 100f, new List<Tool>(), null);
+		TransmitBeam(m_initialTransmission.position, m_initialTransmission.up, 100f, new List<Tool>(), gameObject);
     }
 
-	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance, List<Tool> visitedTools, TransmissionReflecter originReflecter)
+	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance, List<Tool> visitedTools, GameObject origin)
 	{
-		RaycastHit2D hit = Physics2D.Raycast(start, direction, distance);
-		var endPos = Vector2.zero;
-		var hitDist = Mathf.Min(distance, hit.distance);
-		Tool hitTool = null;
-		if (hit.collider == null)
+		float hitDist = distance;
+		bool hasHit = false;
+		var originCollider = origin.GetComponent<Collider2D>();
+		RaycastHit2D[] hits = Physics2D.RaycastAll(start, direction, distance, 1, -0.5f, 0.5f);
+		RaycastHit2D hit = new RaycastHit2D();
+		if (hits.Length != 0)
 		{
-			endPos = start + direction * hitDist;
+			for (int i = 0; i < hits.Length; i++)
+			{
+				if (hits[i].collider != originCollider)
+				{
+					hit = hits[i];
+					hasHit = true;
+					break;
+				}
+			}
 		}
-		else
+
+		var endPos = Vector2.zero;
+//		var hitDist = Mathf.Min(distance, hit.distance);
+		Tool hitTool = null;
+		if (hasHit)
 		{
 			hitTool = hit.collider.GetComponent<Tool>();
 			if (hitTool == null)
@@ -63,9 +76,14 @@ public class TransmissionController : MonoBehaviour
 			}
 			else
 			{
+				var originReflecter = origin.GetComponent<TransmissionReflecter>();
 				hitTool.OnHitByTransmission(start, direction, hit.point, visitedTools, originReflecter);
 				endPos = hitTool.transform.position;
 			}
+		}
+		else
+		{
+			endPos = start + direction * distance;
 		}
 		return new TransmissionHit(endPos, hitTool);
 	}

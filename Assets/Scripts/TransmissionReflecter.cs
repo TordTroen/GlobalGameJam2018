@@ -7,9 +7,18 @@ public class TransmissionReflecter : Tool
     [SerializeField]private float m_distance = 100f;
 	[SerializeField]private LayerMask m_transmissionHitMask;
 	[SerializeField]private GameObject m_transmissionEdgePrefab;
+	[SerializeField]private Transform m_transmissionOrigin;
 	[SerializeField]private List<TransmissionEdge> m_edges = new List<TransmissionEdge>();
 	private TransmissionReflecter m_prevReflecter;
 	private TransmissionReflecter m_nextReflecter;
+
+	private void Awake()
+	{
+		if (m_transmissionOrigin == null)
+		{
+			m_transmissionOrigin = transform;
+		}
+	}
 
 	public override void OnHitByTransmission(Vector2 transmissionOrigin, Vector2 transmissionDirection, Vector2 endPoint, List<Tool> visitedTools, TransmissionReflecter originReflecter = null)
     {
@@ -24,13 +33,14 @@ public class TransmissionReflecter : Tool
 		DisableOutgoingEdges();
 
         var direction = transform.up;
-		Transmit(transform.position, direction, m_distance, visitedTools);
+
+		Transmit(m_transmissionOrigin.position, direction, m_distance, visitedTools, transform.position);
     }
 
 
-	protected void Transmit(Vector2 start, Vector2 direction, float distance, List<Tool> visitedTools)
+	protected void Transmit(Vector2 transmissionStart, Vector2 direction, float distance, List<Tool> visitedTools, Vector2 visualStart)
 	{
-		var hit = TransmissionController.TransmitBeam(start, direction, distance, visitedTools, this);
+		var hit = TransmissionController.TransmitBeam(transmissionStart, direction, distance, visitedTools, gameObject);
 		TransmissionReflecter reflecterHit = null;
 		if (hit.HitTool is TransmissionReflecter)
 		{
@@ -75,7 +85,7 @@ public class TransmissionReflecter : Tool
 			m_edges.Add(edgeToUse);
 
 		}
-		edgeToUse.StartTransmission(start, hit.EndPos, OwnerPlayer == null ? Color.green : OwnerPlayer.PlayerColor);
+		edgeToUse.StartTransmission(visualStart, hit.EndPos, OwnerPlayer == null ? Color.green : OwnerPlayer.PlayerColor);
 	}
 
 	public void DisableOutgoingEdges()

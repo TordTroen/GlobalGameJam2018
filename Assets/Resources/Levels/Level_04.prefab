@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61756926015122182}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -265,7 +265,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1033882252000912}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 4, y: 4, z: 16}
   m_Children:
   - {fileID: 4949558577007598}
@@ -753,6 +753,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_transmissionEdgePrefab: {fileID: 1226296549276448, guid: f6bbed67b16954b56b50a5a7f6b9ed58,
     type: 2}
+  m_transmissionOrigin: {fileID: 0}
   m_edges: []
 --- !u!114 &114848627625646152
 MonoBehaviour:
