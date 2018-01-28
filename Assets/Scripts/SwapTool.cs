@@ -8,7 +8,7 @@ public class SwapTool : Tool
 	{
 		// TODO Raycast and hit tool. if hit tool make that tools owner the same as this tool
 //		var hit = ReferenceManager.Instance.ToolManager.RaycastFromCamToMouse();
-		print("PlaceHit: " + hit.collider);
+//		print("PlaceHit: " + hit.collider);
 		if (hit.collider != null)
 		{
 			var tool = hit.collider.GetComponent<Tool>();

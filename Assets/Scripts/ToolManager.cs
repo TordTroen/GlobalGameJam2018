@@ -78,34 +78,26 @@ public class ToolManager : MonoBehaviour
 
 	public void PlaceCurrentTool(RaycastHit2D hit)
 	{
-//		if (isValidPlacement)
-//		{
-			var placeState = m_currentTool.OnPlace(hit);
-			if (placeState == PlaceState.Place)
+		var placeState = m_currentTool.OnPlace(hit);
+		if (placeState == PlaceState.Place)
+		{
+			bool isValidPlacement = hit.collider.tag == Tags.Floor;
+			if (isValidPlacement)
 			{
 				CurrentToolState = ToolState.Placed;
 				var pos = m_currentTool.transform.position;
 				pos.z = 0f;
 				m_currentTool.transform.position = pos;
-			}
-			else
+			}	
+		}
+		else
+		{
+			ReleaseCurrentTool();
+			if (placeState == PlaceState.DestroyAndAction)
 			{
-				ReleaseCurrentTool();
-				if (placeState == PlaceState.DestroyAndAction)
-				{
-					ReferenceManager.Instance.GameFlowController.EndCurrentTurn();
-				}
+				ReferenceManager.Instance.GameFlowController.EndCurrentTurn();
 			}
-//		}
-//		else
-//		{
-//			if (m_currentTool != null)
-//			{
-//				Destroy(m_currentTool.gameObject);
-//				m_currentTool = null;
-//			}
-//			CurrentToolState = ToolState.None;
-//		}
+		}
 	}
 
 	public void ReleaseCurrentTool()

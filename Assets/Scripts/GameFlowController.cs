@@ -75,7 +75,7 @@ public class GameFlowController : MonoBehaviour
 			m_toolManager.CommitCurrentTool();
 		}
 
-		print(string.Format("Player {0} turn done!", CurrentPlayer.PlayerName));
+//		print(string.Format("Player {0} turn done!", CurrentPlayer.PlayerName));
 		NextPlayer();
 		// TODO if you have placed box, commit it at current rotation
 		// TODO visual feedback

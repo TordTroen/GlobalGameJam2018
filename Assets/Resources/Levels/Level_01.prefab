@@ -234,8 +234,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1060871761702502}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.782, y: 0.0075, z: 0}
-  m_LocalScale: {x: 3.0667148, y: 4, z: 0.0625}
+  m_LocalPosition: {x: -6.114, y: 0.0075, z: 0}
+  m_LocalScale: {x: 7.731653, y: 4, z: 0.0625}
   m_Children: []
   m_Father: {fileID: 4945057583718882}
   m_RootOrder: 1
@@ -261,8 +261,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1227686026230616}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.049, y: 3.231, z: 0}
-  m_LocalScale: {x: 2.8724592, y: 10.730554, z: 0.0625}
+  m_LocalPosition: {x: 0.049, y: 5.255, z: 0}
+  m_LocalScale: {x: 6.920544, y: 19.829105, z: 0.0625}
   m_Children: []
   m_Father: {fileID: 4945057583718882}
   m_RootOrder: 2
@@ -314,8 +314,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1187390733235198}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.8342, y: 0.0075, z: 0}
-  m_LocalScale: {x: 3.1544447, y: 4, z: 0.0625}
+  m_LocalPosition: {x: 6.092, y: 0.0075, z: 0}
+  m_LocalScale: {x: 7.670404, y: 4, z: 0.0625}
   m_Children: []
   m_Father: {fileID: 4945057583718882}
   m_RootOrder: 0
@@ -387,8 +387,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1917230752246234}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.049, y: -3.157, z: 0}
-  m_LocalScale: {x: 2.8141813, y: 10.730555, z: 0.0625}
+  m_LocalPosition: {x: 0.049, y: -4.892, z: 0}
+  m_LocalScale: {x: 6.283969, y: 19.752007, z: 0.0625}
   m_Children: []
   m_Father: {fileID: 4945057583718882}
   m_RootOrder: 3
@@ -701,6 +701,8 @@ MonoBehaviour:
   m_transmissionEdgePrefab: {fileID: 1226296549276448, guid: f6bbed67b16954b56b50a5a7f6b9ed58,
     type: 2}
   m_transmissionOrigin: {fileID: 0}
+  m_beamCount: 1
+  m_beamSpread: 10
   m_edges: []
 --- !u!212 &212042453209763886
 SpriteRenderer:
