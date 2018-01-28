@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameFlowController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameFlowController : MonoBehaviour
 	private ToolManager m_toolManager;
 	public Level CurrentLevel { get; set; }
 	public Level[] AllLevels { get; private set; }
+	[SerializeField]private Image m_timerImage;
 
 	private void Awake()
 	{
@@ -34,10 +36,16 @@ public class GameFlowController : MonoBehaviour
 	private void Update()
 	{
 		m_turnTimer -= Time.deltaTime;
+		UpdateTimerImage();
 		if (m_turnTimer <= 0f)
 		{
 			EndCurrentTurn();
 		}
+	}
+
+	private void UpdateTimerImage()
+	{
+		m_timerImage.fillAmount = m_turnTimer / m_secondsPerTurn;
 	}
 
 	public void EndCurrentTurn()
@@ -59,9 +67,11 @@ public class GameFlowController : MonoBehaviour
 
 	public void NextPlayer()
 	{
+		CurrentPlayer.SelectedPlayerOverlay.SetActive(false);
 		m_currentPlayerId = (m_currentPlayerId + 1) % 2;
 		UpdatePlayerToolbox();
 		m_turnTimer = m_secondsPerTurn;
+		CurrentPlayer.SelectedPlayerOverlay.SetActive(true);
 		// TODO visual feedback like "Player X turn!"
 	}
 
@@ -77,6 +87,7 @@ public class GameFlowController : MonoBehaviour
 
 	public void WinGame(PlayerInfo winningPlayer)
 	{
+		winningPlayer.Score ++;
 		UnloadCurrentLevel();
 		ReferenceManager.Instance.TransmissionController.StopTransmission();
 		ReferenceManager.Instance.IngameMenuManager.GoToWinScreen(winningPlayer);

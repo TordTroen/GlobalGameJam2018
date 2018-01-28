@@ -179,6 +179,7 @@ MonoBehaviour:
   m_levelGridParent: {fileID: 0}
   m_levelGridItemPrefab: {fileID: 1518873809271456, guid: 9cc8c9d9daa844939967b8a4a504e021,
     type: 2}
+  m_winText: {fileID: 0}
 --- !u!114 &114379331942673268
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -219,8 +220,10 @@ MonoBehaviour:
   m_players:
   - m_playerName: Player1
     m_playerColor: {r: 0, g: 0.6275859, b: 1, a: 1}
+    m_scoreText: {fileID: 0}
   - m_playerName: Player2
     m_playerColor: {r: 1, g: 0, b: 0, a: 1}
+    m_scoreText: {fileID: 0}
   m_secondsPerTurn: 60
 --- !u!114 &114927884938715212
 MonoBehaviour:
