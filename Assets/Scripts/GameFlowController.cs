@@ -21,18 +21,16 @@ public class GameFlowController : MonoBehaviour
 	private void Awake()
 	{
 		m_toolManager = ReferenceManager.Instance.ToolManager;
-		var levelObjects = Resources.LoadAll("Levels", typeof(Level));
-		AllLevels = new Level[levelObjects.Length];
-		for (int levelIndex = 0; levelIndex < levelObjects.Length; levelIndex++)
+		LoadAllLevelsFromDisk();
+		for (int playerId = 0; playerId < m_players.Length; playerId++)
 		{
-			AllLevels[levelIndex] = levelObjects[levelIndex] as Level;
-			AllLevels[levelIndex].LevelName = string.Format("Level {0}", levelIndex + 1);
+			m_players[playerId].PlayerId = playerId;
 		}
 	}
 
 	private void Start()
 	{
-		NextPlayer();
+		SetCurrentPlayer(0 ,false);
 		SetPlayerOverlaysActive(false);
 	}
 
@@ -46,6 +44,17 @@ public class GameFlowController : MonoBehaviour
 			{
 				EndCurrentTurn();
 			}
+		}
+	}
+
+	private void LoadAllLevelsFromDisk()
+	{
+		var levelObjects = Resources.LoadAll("Levels", typeof(Level));
+		AllLevels = new Level[levelObjects.Length];
+		for (int levelIndex = 0; levelIndex < levelObjects.Length; levelIndex++)
+		{
+			AllLevels[levelIndex] = levelObjects[levelIndex] as Level;
+			AllLevels[levelIndex].LevelName = string.Format("Level {0}", levelIndex + 1);
 		}
 	}
 
@@ -75,23 +84,20 @@ public class GameFlowController : MonoBehaviour
 	public void NextPlayer()
 	{
 		var nextPlayerId = (m_currentPlayerId + 1) % 2;
-		SetCurrentPlayer(nextPlayerId);
-//		CurrentPlayer.SelectedPlayerOverlay.SetActive(false);
-//		m_currentPlayerId = (m_currentPlayerId + 1) % 2;
-//		m_turnTimer = m_secondsPerTurn;
-//		CurrentPlayer.SelectedPlayerOverlay.SetActive(true);
-//		m_timerImage.color = CurrentPlayer.PlayerColor;
-//		// TODO visual feedback like "Player X turn!"
+		SetCurrentPlayer(nextPlayerId, true);
 	}
 
-	public void SetCurrentPlayer(int id)
+	public void SetCurrentPlayer(int id, bool notify)
 	{
 		CurrentPlayer.SelectedPlayerOverlay.SetActive(false);
 		m_currentPlayerId = id;
 		m_turnTimer = m_secondsPerTurn;
 		CurrentPlayer.SelectedPlayerOverlay.SetActive(true);
 		m_timerImage.color = CurrentPlayer.PlayerColor;
-		// TODO visual feedback like "Player X turn!"
+		if (notify)
+		{
+			ReferenceManager.Instance.IngameMenuManager.NotifyPlayerTurn(CurrentPlayer);
+		}
 	}
 
 	public void UnloadCurrentLevel()
@@ -124,6 +130,6 @@ public class GameFlowController : MonoBehaviour
 	public void StartLevel(Level level)
 	{
 		CurrentLevel = level;
-		SetCurrentPlayer(0);
+		SetCurrentPlayer(0, true);
 	}
 }

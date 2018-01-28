@@ -15,5 +15,5 @@ public class PlayerInfo
 	[SerializeField]private Text m_scoreText;
 	[SerializeField]private GameObject m_selectedPlayerOverlay;
 	public GameObject SelectedPlayerOverlay { get { return m_selectedPlayerOverlay; } set { m_selectedPlayerOverlay = value; } }
-
+	public int PlayerId { get; set; }
 }

@@ -15,12 +15,22 @@ public class Tool : MonoBehaviour
 		m_spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
-	public void OnPickUp(PlayerInfo pickedUpBy)
+	public virtual void OnPickUp(PlayerInfo pickedUpBy)
 	{
 		m_ownerPlayer = pickedUpBy;
+		UpdateGraphics();
+	}
+
+	public virtual void OnPlace()
+	{
+		
+	}
+
+	public void UpdateGraphics()
+	{
 		if (m_spriteRenderer)
 		{
-			m_spriteRenderer.sprite = PlayerSprites[ReferenceManager.Instance.GameFlowController.CurrentPlayerId];
+			m_spriteRenderer.sprite = PlayerSprites[OwnerPlayer.PlayerId];
 		}
 	}
 

@@ -55,7 +55,7 @@ public class ToolManager : MonoBehaviour
 	{
 		var obj = Instantiate(toolPrefab);
 		obj.transform.SetParent(ReferenceManager.Instance.GameFlowController.CurrentLevel.transform);
-		obj.name = "Reflecter_" + m_toolCount++;
+		obj.name = obj.name.Replace("(Clone)", "") + m_toolCount++;
 		var tool = obj.GetComponent<Tool>();
 		m_currentTool = tool;
 		CurrentToolState = ToolState.Held;

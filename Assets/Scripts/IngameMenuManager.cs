@@ -19,6 +19,10 @@ public class IngameMenuManager : MonoBehaviour
 
 	[SerializeField]private Text m_winText;
 
+	[SerializeField]private Animator m_playerTurnNotificationAnimator;
+	[SerializeField]private Text m_playerTurnNotificationText;
+	[SerializeField]private Image m_playerTurnNotificationImage;
+
 	private void Start()
 	{
 		InitLevelSelect();
@@ -90,5 +94,12 @@ public class IngameMenuManager : MonoBehaviour
 		var level = levelObj.GetComponent<Level>();
 		level.OnStartLevel();
 		ReferenceManager.Instance.GameFlowController.StartLevel(level);
+	}
+
+	public void NotifyPlayerTurn(PlayerInfo player)
+	{
+		m_playerTurnNotificationAnimator.SetTrigger("PlayNotification");
+		m_playerTurnNotificationImage.color = player.PlayerColor;
+		m_playerTurnNotificationText.text = string.Format("{0}s turn!", player.PlayerName);
 	}
 }

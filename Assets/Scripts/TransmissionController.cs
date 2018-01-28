@@ -46,6 +46,7 @@ public class TransmissionController : MonoBehaviour
 
 	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance, List<Tool> visitedTools, GameObject origin)
 	{
+		print("Transmitting " + direction);
 		float hitDist = distance;
 		bool hasHit = false;
 		var originCollider = origin.GetComponent<Collider2D>();
@@ -85,6 +86,7 @@ public class TransmissionController : MonoBehaviour
 		{
 			endPos = start + direction * distance;
 		}
+//		Debug.DrawRay(start, endPos - start, Color.green, 1f);
 		return new TransmissionHit(endPos, hitTool);
 	}
 }

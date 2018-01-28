@@ -8,9 +8,12 @@ public class TransmissionReflecter : Tool
 	[SerializeField]private LayerMask m_transmissionHitMask;
 	[SerializeField]private GameObject m_transmissionEdgePrefab;
 	[SerializeField]private Transform m_transmissionOrigin;
-	[SerializeField]private List<TransmissionEdge> m_edges = new List<TransmissionEdge>();
+//	[SerializeField]private List<TransmissionEdge> m_edges = new List<TransmissionEdge>();
 	private TransmissionReflecter m_prevReflecter;
 	private TransmissionReflecter m_nextReflecter;
+	public int m_beamCount = 1;
+	public float m_beamSpread = 10f;
+	public TransmissionEdge[] m_edges;
 
 	protected override void Awake()
 	{
@@ -18,6 +21,14 @@ public class TransmissionReflecter : Tool
 		if (m_transmissionOrigin == null)
 		{
 			m_transmissionOrigin = transform;
+		}
+		m_edges = new TransmissionEdge[m_beamCount];
+		for (int i = 0; i < m_edges.Length; i++)
+		{
+			var obj = Instantiate(m_transmissionEdgePrefab);
+			obj.transform.SetParent(transform);
+			var edge = obj.GetComponent<TransmissionEdge>();
+			m_edges[i] = edge;
 		}
 	}
 
@@ -33,12 +44,15 @@ public class TransmissionReflecter : Tool
 
 		DisableOutgoingEdges();
 
-        var direction = transform.up;
-
-		Transmit(m_transmissionOrigin.position, direction, m_distance, visitedTools, transform.position);
+		var direction = transform.up;
+		for (int i = 0; i < m_beamCount; i++)
+		{
+			Transmit(m_transmissionOrigin.position, direction, m_distance, visitedTools, transform.position, m_edges[i]);
+			direction = Quaternion.AngleAxis(-m_beamSpread, Vector3.up) * direction;
+		}
     }
 		
-	protected void Transmit(Vector2 transmissionStart, Vector2 direction, float distance, List<Tool> visitedTools, Vector2 visualStart)
+	protected void Transmit(Vector2 transmissionStart, Vector2 direction, float distance, List<Tool> visitedTools, Vector2 visualStart, TransmissionEdge edge)
 	{
 		var hit = TransmissionController.TransmitBeam(transmissionStart, direction, distance, visitedTools, gameObject);
 		TransmissionReflecter reflecterHit = null;
@@ -69,23 +83,24 @@ public class TransmissionReflecter : Tool
 
 		// Create or reuse edge
 		TransmissionEdge edgeToUse = null;
-		foreach (var edge in m_edges)
-		{
-			if (!edge.gameObject.activeInHierarchy)
-			{
-				edgeToUse = edge;
-				edgeToUse.gameObject.SetActive(true);
-			}
-		}
-		if (edgeToUse == null)
-		{
-			var obj = Instantiate(m_transmissionEdgePrefab);
-			obj.transform.SetParent(transform);
-			edgeToUse = obj.GetComponent<TransmissionEdge>();
-			m_edges.Add(edgeToUse);
-
-		}
-		edgeToUse.StartTransmission(visualStart, hit.EndPos, OwnerPlayer == null ? Color.gray : OwnerPlayer.PlayerColor);
+//		foreach (var edge in m_edges)
+//		{
+//			if (!edge.gameObject.activeInHierarchy)
+//			{
+//				edgeToUse = edge;
+//				edgeToUse.gameObject.SetActive(true);
+//			}
+//		}
+//		if (edgeToUse == null)
+//		{
+//			var obj = Instantiate(m_transmissionEdgePrefab);
+//			obj.transform.SetParent(transform);
+//			edgeToUse = obj.GetComponent<TransmissionEdge>();
+//			m_edges.Add(edgeToUse);
+//
+//		}
+		edge.gameObject.SetActive(true);
+		edge.StartTransmission(visualStart, hit.EndPos, OwnerPlayer == null ? Color.gray : OwnerPlayer.PlayerColor);
 	}
 
 	public void DisableOutgoingEdges()
