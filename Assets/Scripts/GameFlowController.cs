@@ -26,13 +26,14 @@ public class GameFlowController : MonoBehaviour
 		for (int levelIndex = 0; levelIndex < levelObjects.Length; levelIndex++)
 		{
 			AllLevels[levelIndex] = levelObjects[levelIndex] as Level;
-			AllLevels[levelIndex].LevelName = string.Format("Level {0}", levelIndex);
+			AllLevels[levelIndex].LevelName = string.Format("Level {0}", levelIndex + 1);
 		}
 	}
 
 	private void Start()
 	{
 		NextPlayer();
+		SetPlayerOverlaysActive(false);
 	}
 
 	private void Update()
@@ -101,6 +102,15 @@ public class GameFlowController : MonoBehaviour
 		{
 			Destroy(CurrentLevel.gameObject);
 			CurrentLevel = null;
+		}
+		SetPlayerOverlaysActive(false);
+	}
+
+	public void SetPlayerOverlaysActive(bool active)
+	{
+		foreach (var player in m_players)
+		{
+			player.SelectedPlayerOverlay.SetActive(active);
 		}
 	}
 

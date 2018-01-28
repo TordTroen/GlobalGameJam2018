@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IngameMenuManager : MonoBehaviour
 {
@@ -57,10 +58,17 @@ public class IngameMenuManager : MonoBehaviour
 		m_stalematePanel.SetActive(true);
 	}
 
-	public void GoBackFromLevel()
+	public void OnBackPressed()
 	{
-		ReferenceManager.Instance.GameFlowController.UnloadCurrentLevel();
-		GoToLevelSelect();
+		if (m_rightSidePanel.activeInHierarchy) // In game
+		{
+			ReferenceManager.Instance.GameFlowController.UnloadCurrentLevel();
+			GoToLevelSelect();
+		}
+		else if (m_levelSelectPanel.activeInHierarchy)
+		{
+			SceneManager.LoadScene(SceneNames.MainMenu);
+		}
 	}
 
 	private void InitLevelSelect()
