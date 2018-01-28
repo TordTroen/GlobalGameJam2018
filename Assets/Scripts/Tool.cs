@@ -8,7 +8,7 @@ public class Tool : MonoBehaviour
 	public Sprite[] PlayerSprites { get { return m_playerSprites; } }
 	private SpriteRenderer m_spriteRenderer;
 	private PlayerInfo m_ownerPlayer;
-	public PlayerInfo OwnerPlayer { get { return m_ownerPlayer; } }
+	public PlayerInfo OwnerPlayer { get { return m_ownerPlayer; } set { m_ownerPlayer = value; UpdateGraphics(); } }
 
 	protected virtual void Awake()
 	{
@@ -17,13 +17,12 @@ public class Tool : MonoBehaviour
 
 	public virtual void OnPickUp(PlayerInfo pickedUpBy)
 	{
-		m_ownerPlayer = pickedUpBy;
-		UpdateGraphics();
+		OwnerPlayer = pickedUpBy;
 	}
 
-	public virtual void OnPlace()
+	public virtual PlaceState OnPlace(RaycastHit2D hit)
 	{
-		
+		return PlaceState.Place;
 	}
 
 	public void UpdateGraphics()

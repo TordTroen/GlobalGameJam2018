@@ -14,3 +14,8 @@ public static class SceneNames
 	public const string MainMenu = "MainMenu";
 	public const string PlayScene = "PlayScene";
 }
+
+public static class LayerMasks
+{
+	public const int Everything = ~0;
+}

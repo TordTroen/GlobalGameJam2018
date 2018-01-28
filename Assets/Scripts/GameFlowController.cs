@@ -68,7 +68,7 @@ public class GameFlowController : MonoBehaviour
 	{
 		if (m_toolManager.CurrentToolState == ToolState.Held)
 		{
-			m_toolManager.PlaceCurrentTool(false);
+			m_toolManager.ReleaseCurrentTool();
 		}
 		else if (m_toolManager.CurrentToolState == ToolState.Placed)
 		{
@@ -103,7 +103,7 @@ public class GameFlowController : MonoBehaviour
 	public void UnloadCurrentLevel()
 	{
 		ReferenceManager.Instance.TransmissionController.StopTransmission();
-		ReferenceManager.Instance.ToolManager.PlaceCurrentTool(false);
+		ReferenceManager.Instance.ToolManager.ReleaseCurrentTool();
 		if (CurrentLevel != null)
 		{
 			Destroy(CurrentLevel.gameObject);

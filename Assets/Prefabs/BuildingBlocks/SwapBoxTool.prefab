@@ -35,10 +35,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4038941846550122}
   - component: {fileID: 212283848893737940}
-  - component: {fileID: 114553768389643472}
   - component: {fileID: 58253285561644828}
+  - component: {fileID: 114164848617673722}
   m_Layer: 0
-  m_Name: ReflecterSpreader
+  m_Name: SwapBoxTool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,7 +86,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!114 &114553768389643472
+--- !u!114 &114164848617673722
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -94,22 +94,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1247380991402902}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 687101952c8af418090b5e7a2fba3d84, type: 3}
+  m_Script: {fileID: 11500000, guid: 0af3b467621c5448f8d73fb186718833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerSprites:
-  - {fileID: 21300000, guid: a883528a352f84ac8a55ae526010ed34, type: 3}
-  - {fileID: 21300000, guid: 687e42bbb1024416ea50fabe6809e374, type: 3}
-  m_distance: 100
-  m_transmissionHitMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_transmissionEdgePrefab: {fileID: 1226296549276448, guid: f6bbed67b16954b56b50a5a7f6b9ed58,
-    type: 2}
-  m_transmissionOrigin: {fileID: 4324374892800648}
-  m_beamCount: 3
-  m_beamSpread: 45
-  m_edges: []
+  - {fileID: 21300000, guid: df0342f92970445fba8e2f55526847d4, type: 3}
+  - {fileID: 21300000, guid: df0342f92970445fba8e2f55526847d4, type: 3}
 --- !u!212 &212283848893737940
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -144,7 +134,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 45
-  m_Sprite: {fileID: 21300000, guid: a883528a352f84ac8a55ae526010ed34, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df0342f92970445fba8e2f55526847d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

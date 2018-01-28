@@ -46,11 +46,11 @@ public class TransmissionController : MonoBehaviour
 
 	public static TransmissionHit TransmitBeam(Vector2 start, Vector2 direction, float distance, List<Tool> visitedTools, GameObject origin)
 	{
-		print("Transmitting " + direction);
+//		print("Transmitting " + direction);
 		float hitDist = distance;
 		bool hasHit = false;
 		var originCollider = origin.GetComponent<Collider2D>();
-		RaycastHit2D[] hits = Physics2D.RaycastAll(start, direction, distance, 1, -0.5f, 0.5f);
+		RaycastHit2D[] hits = Physics2D.RaycastAll(start, direction, distance, LayerMasks.Everything, -0.5f, 0.5f);
 		RaycastHit2D hit = new RaycastHit2D();
 		if (hits.Length != 0)
 		{

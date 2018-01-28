@@ -10,6 +10,13 @@ public enum ToolState
 	Committed
 }
 
+public enum PlaceState
+{
+	Place,
+	DestroyNoAction,
+	DestroyAndAction
+}
+
 public class ToolManager : MonoBehaviour
 {
 	private Tool m_currentTool;
@@ -27,16 +34,12 @@ public class ToolManager : MonoBehaviour
 				ToolFollowMousePos(m_currentTool);
 				if (Input.GetButtonDown("Fire1"))
 				{
-					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-					var rayDist = 20f;
-					Debug.DrawRay(ray.origin, ray.direction * rayDist, Color.red, 10f);
-					var hit = Physics2D.Raycast(ray.origin, ray.direction, rayDist, 1, -1f, 2f);
-					print(hit.collider);
-					if (hit.collider != null && hit.collider.tag == Tags.Floor)
-					{
-						bool isValidPlacement = true;
-						PlaceCurrentTool(isValidPlacement);
-					}
+					var hit = RaycastFromCamToMouse();
+//					if (hit.collider != null && hit.collider.tag == Tags.Floor)
+//					{
+//						bool isValidPlacement = true;
+						PlaceCurrentTool(hit);
+//					}
 				}
 				break;
 			case ToolState.Placed:
@@ -51,35 +54,68 @@ public class ToolManager : MonoBehaviour
 		}
 	}
 
-	public void PickupTool(GameObject toolPrefab)
+	public RaycastHit2D RaycastFromCamToMouse()
 	{
-		var obj = Instantiate(toolPrefab);
-		obj.transform.SetParent(ReferenceManager.Instance.GameFlowController.CurrentLevel.transform);
-		obj.name = obj.name.Replace("(Clone)", "") + m_toolCount++;
-		var tool = obj.GetComponent<Tool>();
-		m_currentTool = tool;
-		CurrentToolState = ToolState.Held;
-		m_currentTool.OnPickUp(ReferenceManager.Instance.GameFlowController.CurrentPlayer);
+		var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		var rayDist = 20f;
+		Debug.DrawRay(ray.origin, ray.direction * rayDist, Color.red, 10f);
+		return Physics2D.Raycast(ray.origin, ray.direction, rayDist, LayerMasks.Everything, -1f, 2f);
 	}
 
-	public void PlaceCurrentTool(bool isValidPlacement)
+	public void PickupTool(GameObject toolPrefab)
 	{
-		if (isValidPlacement)
+		if (CurrentTool == null)
 		{
-			CurrentToolState = ToolState.Placed;
-			var pos = m_currentTool.transform.position;
-			pos.z = 0f;
-			m_currentTool.transform.position = pos;
+			var obj = Instantiate(toolPrefab);
+			obj.transform.SetParent(ReferenceManager.Instance.GameFlowController.CurrentLevel.transform);
+			obj.name = obj.name.Replace("(Clone)", "") + m_toolCount++;
+			var tool = obj.GetComponent<Tool>();
+			m_currentTool = tool;
+			CurrentToolState = ToolState.Held;
+			m_currentTool.OnPickUp(ReferenceManager.Instance.GameFlowController.CurrentPlayer);
 		}
-		else
-		{
-			if (m_currentTool != null)
+	}
+
+	public void PlaceCurrentTool(RaycastHit2D hit)
+	{
+//		if (isValidPlacement)
+//		{
+			var placeState = m_currentTool.OnPlace(hit);
+			if (placeState == PlaceState.Place)
 			{
-				Destroy(m_currentTool.gameObject);
-				m_currentTool = null;
+				CurrentToolState = ToolState.Placed;
+				var pos = m_currentTool.transform.position;
+				pos.z = 0f;
+				m_currentTool.transform.position = pos;
 			}
-			CurrentToolState = ToolState.None;
+			else
+			{
+				ReleaseCurrentTool();
+				if (placeState == PlaceState.DestroyAndAction)
+				{
+					ReferenceManager.Instance.GameFlowController.EndCurrentTurn();
+				}
+			}
+//		}
+//		else
+//		{
+//			if (m_currentTool != null)
+//			{
+//				Destroy(m_currentTool.gameObject);
+//				m_currentTool = null;
+//			}
+//			CurrentToolState = ToolState.None;
+//		}
+	}
+
+	public void ReleaseCurrentTool()
+	{
+		if (m_currentTool != null)
+		{
+			Destroy(m_currentTool.gameObject);
+			m_currentTool = null;
 		}
+		CurrentToolState = ToolState.None;
 	}
 
 	public void CommitCurrentTool()

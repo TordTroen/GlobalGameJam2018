@@ -36,7 +36,7 @@ public class TransmissionReflecter : Tool
     {
 		if (visitedTools.Contains(this as Tool))
 		{
-			print("Already visited this tool");
+//			print("Already visited this tool");
 			return;
 		}
 		base.OnHitByTransmission(transmissionOrigin, transmissionDirection, endPoint, visitedTools, originReflecter);
@@ -62,7 +62,7 @@ public class TransmissionReflecter : Tool
 		}
 		if (reflecterHit != null && reflecterHit == m_prevReflecter)
 		{
-			print("Danger high voltage");
+//			print("Danger high voltage");
 			return;
 		}
 //		if (visitedTools.Contains(hit.HitTool))
@@ -72,7 +72,7 @@ public class TransmissionReflecter : Tool
 //		}
 		if (m_nextReflecter != null && m_nextReflecter != reflecterHit)
 		{
-			print("Chain broken!");
+//			print("Chain broken!");
 //			BreakTheChain();
 			foreach (var next in GetChain())
 			{
@@ -119,7 +119,7 @@ public class TransmissionReflecter : Tool
 		{
 			if (chain.Contains(next))
 			{
-				print("Already have this in chain");
+//				print("Already have this in chain");
 				break;
 			}
 			chain.Add(next);
