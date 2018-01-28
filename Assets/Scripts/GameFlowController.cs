@@ -35,11 +35,14 @@ public class GameFlowController : MonoBehaviour
 
 	private void Update()
 	{
-		m_turnTimer -= Time.deltaTime;
-		UpdateTimerImage();
-		if (m_turnTimer <= 0f)
+		if (CurrentLevel != null)
 		{
-			EndCurrentTurn();
+			m_turnTimer -= Time.deltaTime;
+			UpdateTimerImage();
+			if (m_turnTimer <= 0f)
+			{
+				EndCurrentTurn();
+			}
 		}
 	}
 
@@ -83,6 +86,7 @@ public class GameFlowController : MonoBehaviour
 	public void UnloadCurrentLevel()
 	{
 		Destroy(CurrentLevel.gameObject);
+		CurrentLevel = null;
 	}
 
 	public void WinGame(PlayerInfo winningPlayer)
