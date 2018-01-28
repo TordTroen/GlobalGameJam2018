@@ -73,31 +73,47 @@ public class GameFlowController : MonoBehaviour
 
 	public void NextPlayer()
 	{
+		var nextPlayerId = (m_currentPlayerId + 1) % 2;
+		SetCurrentPlayer(nextPlayerId);
+//		CurrentPlayer.SelectedPlayerOverlay.SetActive(false);
+//		m_currentPlayerId = (m_currentPlayerId + 1) % 2;
+//		m_turnTimer = m_secondsPerTurn;
+//		CurrentPlayer.SelectedPlayerOverlay.SetActive(true);
+//		m_timerImage.color = CurrentPlayer.PlayerColor;
+//		// TODO visual feedback like "Player X turn!"
+	}
+
+	public void SetCurrentPlayer(int id)
+	{
 		CurrentPlayer.SelectedPlayerOverlay.SetActive(false);
-		m_currentPlayerId = (m_currentPlayerId + 1) % 2;
-		UpdatePlayerToolbox();
+		m_currentPlayerId = id;
 		m_turnTimer = m_secondsPerTurn;
 		CurrentPlayer.SelectedPlayerOverlay.SetActive(true);
 		m_timerImage.color = CurrentPlayer.PlayerColor;
 		// TODO visual feedback like "Player X turn!"
 	}
 
-	public void UpdatePlayerToolbox()
-	{
-		// TODO change the visuals for available tools or does both players have the same tools?
-	}
-
 	public void UnloadCurrentLevel()
 	{
-		Destroy(CurrentLevel.gameObject);
-		CurrentLevel = null;
+		ReferenceManager.Instance.TransmissionController.StopTransmission();
+		ReferenceManager.Instance.ToolManager.PlaceCurrentTool(false);
+		if (CurrentLevel != null)
+		{
+			Destroy(CurrentLevel.gameObject);
+			CurrentLevel = null;
+		}
 	}
 
 	public void WinGame(PlayerInfo winningPlayer)
 	{
 		winningPlayer.Score ++;
 		UnloadCurrentLevel();
-		ReferenceManager.Instance.TransmissionController.StopTransmission();
 		ReferenceManager.Instance.IngameMenuManager.GoToWinScreen(winningPlayer);
+	}
+
+	public void StartLevel(Level level)
+	{
+		CurrentLevel = level;
+		SetCurrentPlayer(0);
 	}
 }

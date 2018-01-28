@@ -73,8 +73,11 @@ public class ToolManager : MonoBehaviour
 		}
 		else
 		{
-			Destroy(m_currentTool.gameObject);
-			m_currentTool = null;
+			if (m_currentTool != null)
+			{
+				Destroy(m_currentTool.gameObject);
+				m_currentTool = null;
+			}
 			CurrentToolState = ToolState.None;
 		}
 	}

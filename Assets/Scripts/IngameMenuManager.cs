@@ -27,32 +27,34 @@ public class IngameMenuManager : MonoBehaviour
 	public void GoToLevelSelect()
 	{
 		m_levelSelectPanel.SetActive(true);
+		m_gameHudPanel.SetActive(true);
 		m_rightSidePanel.SetActive(false);
 	}
 
 	public void GoToLevelScreen()
 	{
+		m_gameHudPanel.SetActive(true);
 		m_rightSidePanel.SetActive(true);
 	}
 
 	public void WinScreenToLevelSelect()
 	{
 		m_winPanel.SetActive(false);
-		m_levelSelectPanel.SetActive(true);
-		m_rightSidePanel.SetActive(false);
+		GoToLevelSelect();
 	}
 
 	public void GoToWinScreen(PlayerInfo winningPlayer)
 	{
 		m_winPanel.SetActive(true);
+		m_gameHudPanel.SetActive(false);
 		m_winText.text = string.Format("{0} wins!", winningPlayer.PlayerName);
 		m_winText.color = winningPlayer.PlayerColor;
 	}
 
 	public void GoToStalemateScreen()
 	{
+		m_gameHudPanel.SetActive(false);
 		m_stalematePanel.SetActive(true);
-		m_rightSidePanel.SetActive(false);
 	}
 
 	public void GoBackFromLevel()
@@ -79,6 +81,6 @@ public class IngameMenuManager : MonoBehaviour
 		var levelObj = Instantiate(levelAsset);
 		var level = levelObj.GetComponent<Level>();
 		level.OnStartLevel();
-		ReferenceManager.Instance.GameFlowController.CurrentLevel = level;
+		ReferenceManager.Instance.GameFlowController.StartLevel(level);
 	}
 }
