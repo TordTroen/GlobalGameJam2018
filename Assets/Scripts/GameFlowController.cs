@@ -14,7 +14,9 @@ public class GameFlowController : MonoBehaviour
 	private ToolManager m_toolManager;
 	public Level CurrentLevel { get; set; }
 	public Level[] AllLevels { get; private set; }
+
 	[SerializeField]private Image m_timerImage;
+	[SerializeField]private Text m_timerText;
 
 	private void Awake()
 	{
@@ -38,7 +40,7 @@ public class GameFlowController : MonoBehaviour
 		if (CurrentLevel != null)
 		{
 			m_turnTimer -= Time.deltaTime;
-			UpdateTimerImage();
+			UpdateTimerGraphics();
 			if (m_turnTimer <= 0f)
 			{
 				EndCurrentTurn();
@@ -46,8 +48,9 @@ public class GameFlowController : MonoBehaviour
 		}
 	}
 
-	private void UpdateTimerImage()
+	private void UpdateTimerGraphics()
 	{
+		m_timerText.text = string.Format("{0:00}s", m_turnTimer);
 		m_timerImage.fillAmount = m_turnTimer / m_secondsPerTurn;
 	}
 
@@ -75,6 +78,7 @@ public class GameFlowController : MonoBehaviour
 		UpdatePlayerToolbox();
 		m_turnTimer = m_secondsPerTurn;
 		CurrentPlayer.SelectedPlayerOverlay.SetActive(true);
+		m_timerImage.color = CurrentPlayer.PlayerColor;
 		// TODO visual feedback like "Player X turn!"
 	}
 

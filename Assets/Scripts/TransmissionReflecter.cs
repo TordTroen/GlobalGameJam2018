@@ -12,8 +12,9 @@ public class TransmissionReflecter : Tool
 	private TransmissionReflecter m_prevReflecter;
 	private TransmissionReflecter m_nextReflecter;
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		if (m_transmissionOrigin == null)
 		{
 			m_transmissionOrigin = transform;
@@ -36,8 +37,7 @@ public class TransmissionReflecter : Tool
 
 		Transmit(m_transmissionOrigin.position, direction, m_distance, visitedTools, transform.position);
     }
-
-
+		
 	protected void Transmit(Vector2 transmissionStart, Vector2 direction, float distance, List<Tool> visitedTools, Vector2 visualStart)
 	{
 		var hit = TransmissionController.TransmitBeam(transmissionStart, direction, distance, visitedTools, gameObject);
@@ -85,7 +85,7 @@ public class TransmissionReflecter : Tool
 			m_edges.Add(edgeToUse);
 
 		}
-		edgeToUse.StartTransmission(visualStart, hit.EndPos, OwnerPlayer == null ? Color.green : OwnerPlayer.PlayerColor);
+		edgeToUse.StartTransmission(visualStart, hit.EndPos, OwnerPlayer == null ? Color.gray : OwnerPlayer.PlayerColor);
 	}
 
 	public void DisableOutgoingEdges()
@@ -111,17 +111,5 @@ public class TransmissionReflecter : Tool
 			next = next.m_nextReflecter;
 		}
 		return chain;
-	}
-
-	public void BreakTheChain() // made in 1971
-	{
-		DisableOutgoingEdges();
-		if (m_nextReflecter != null)
-		{
-			print("Break " + gameObject.name);
-			var tempNext = m_nextReflecter;
-			m_nextReflecter = null;
-			tempNext.BreakTheChain();
-		}
 	}
 }

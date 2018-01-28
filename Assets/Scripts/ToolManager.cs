@@ -27,8 +27,6 @@ public class ToolManager : MonoBehaviour
 				ToolFollowMousePos(m_currentTool);
 				if (Input.GetButtonDown("Fire1"))
 				{
-					// TODO Only allow placing on ground, not walls
-
 					Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 					var rayDist = 20f;
 					Debug.DrawRay(ray.origin, ray.direction * rayDist, Color.red, 10f);

@@ -14,6 +14,8 @@ public class IngameMenuManager : MonoBehaviour
 	[SerializeField]private Transform m_levelGridParent;
 	[SerializeField]private GameObject m_levelGridItemPrefab;
 
+	[SerializeField]private GameObject m_rightSidePanel;
+
 	[SerializeField]private Text m_winText;
 
 	private void Start()
@@ -25,12 +27,19 @@ public class IngameMenuManager : MonoBehaviour
 	public void GoToLevelSelect()
 	{
 		m_levelSelectPanel.SetActive(true);
+		m_rightSidePanel.SetActive(false);
+	}
+
+	public void GoToLevelScreen()
+	{
+		m_rightSidePanel.SetActive(true);
 	}
 
 	public void WinScreenToLevelSelect()
 	{
 		m_winPanel.SetActive(false);
 		m_levelSelectPanel.SetActive(true);
+		m_rightSidePanel.SetActive(false);
 	}
 
 	public void GoToWinScreen(PlayerInfo winningPlayer)
@@ -43,7 +52,13 @@ public class IngameMenuManager : MonoBehaviour
 	public void GoToStalemateScreen()
 	{
 		m_stalematePanel.SetActive(true);
+		m_rightSidePanel.SetActive(false);
+	}
 
+	public void GoBackFromLevel()
+	{
+		ReferenceManager.Instance.GameFlowController.UnloadCurrentLevel();
+		GoToLevelSelect();
 	}
 
 	private void InitLevelSelect()
@@ -59,6 +74,7 @@ public class IngameMenuManager : MonoBehaviour
 
 	private void OnLevelClick(Level levelAsset)
 	{
+		GoToLevelScreen();
 		m_levelSelectPanel.SetActive(false);
 		var levelObj = Instantiate(levelAsset);
 		var level = levelObj.GetComponent<Level>();
